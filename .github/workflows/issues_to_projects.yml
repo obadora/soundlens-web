@@ -12,5 +12,3 @@ jobs:
         with:
           project-url: https://github.com/users/obadora/projects/6
           github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
-          labeled: Todo
-          label-operator: OR
