@@ -2,10 +2,15 @@
   "name": "Next.js Dev Container",
   "dockerComposeFile": "../docker-compose.yml",
   "service": "web",
-  "workspaceFolder": "/app",
+  "workspaceFolder": "/src",
 
   // コンテナ作成後に実行するコマンド
   "postCreateCommand": "npm install",
+
+  // ホストの Claude 設定をマウント
+  "mounts": [
+    "source=${localEnv:HOME}/.claude,target=/home/node/.claude,type=bind,consistency=cached"
+  ],
 
   // VS Code設定
   "customizations": {
