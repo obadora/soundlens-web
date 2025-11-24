@@ -3,19 +3,18 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: soundlens-web
+    container_name: soundlens-web
     ports:
       - "3000:3000"
     volumes:
       # ソースコードをマウント（ホットリロード用）
-      - .:/app
-      # node_modulesは除外（コンテナ内のものを使用）
-      - /app/node_modules
-      # Next.jsのキャッシュディレクトリも除外
-      - /app/.next
+      - .:/src
     environment:
       - NODE_ENV=development
       # ホットリロードのために必要
       - WATCHPACK_POLLING=true
-    command: npm run dev
+    # DevContainer用: コンテナを起動したままにする
+    command: sleep infinity
     stdin_open: true
     tty: true
