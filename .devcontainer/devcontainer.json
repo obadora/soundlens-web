@@ -7,9 +7,14 @@
   // コンテナ作成後に実行するコマンド
   "postCreateCommand": "npm install",
 
+  // コンテナ開始後に実行するコマンド（worktree用のgit設定）
+  "postStartCommand": "bash -c 'if [ -f .git ]; then sed -i \"s|gitdir: .*/\\.git/worktrees/|gitdir: /parent-git/worktrees/|\" .git; fi'",
+
   // ホストの Claude 設定をマウント
   "mounts": [
-    "source=${localEnv:HOME}/.claude,target=/home/node/.claude,type=bind,consistency=cached"
+    "source=${localEnv:HOME}/.claude,target=/home/node/.claude,type=bind,consistency=cached",
+    // 親gitディレクトリをマウント（worktree対応）
+    "source=${localWorkspaceFolder}/../soundlens-web/.git,target=/parent-git,type=bind,consistency=cached,readonly"
   ],
 
   // VS Code設定

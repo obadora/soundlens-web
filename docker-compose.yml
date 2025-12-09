@@ -10,10 +10,12 @@ services:
     volumes:
       # ソースコードをマウント（ホットリロード用）
       - .:/src
+
     environment:
       - NODE_ENV=development
       # ホットリロードのために必要
       - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
     # DevContainer用: コンテナを起動したままにする
     command: sleep infinity
     stdin_open: true
