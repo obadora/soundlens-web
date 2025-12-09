@@ -1,11 +1,11 @@
 # ベースイメージ（Debian系 - devcontainer features対応）
 FROM node:22-slim
 
-# Claude Code CLIをグローバルにインストール（rootユーザーで実行）
-RUN npm install -g @anthropic-ai/claude-code
-
 # 作業ディレクトリを設定
 WORKDIR /src
+
+# Install git
+RUN apt-get update && apt-get install -y git
 
 # /src ディレクトリの所有者を node ユーザーに変更
 RUN chown -R node:node /src
