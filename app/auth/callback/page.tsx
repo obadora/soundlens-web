@@ -51,7 +51,7 @@ function AuthCallbackContent() {
       }
     };
 
-    handleCallback();
+    void handleCallback();
   }, [searchParams, router]);
 
   return (

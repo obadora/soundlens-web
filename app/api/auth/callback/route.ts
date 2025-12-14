@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // Dockerコンテナ内からホストマシンのAPIにアクセス
-const API_BASE_URL = process.env.API_URL || 'http://host.docker.internal:8000';
+const API_BASE_URL = process.env.API_URL ?? 'http://host.docker.internal:8000';
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body: unknown = await request.json();
     console.log('Exchanging token with backend:', `${API_BASE_URL}/auth/callback`);
 
     const response = await fetch(`${API_BASE_URL}/auth/callback`, {
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const data = await response.json();
+    const data: unknown = await response.json();
     console.log('Token exchanged successfully');
     return NextResponse.json(data);
   } catch (error) {

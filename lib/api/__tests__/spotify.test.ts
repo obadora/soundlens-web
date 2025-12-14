@@ -22,7 +22,7 @@ describe('Spotify認証APIクライアント', () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       });
 
       const result = await getLoginUrl();
@@ -67,7 +67,7 @@ describe('Spotify認証APIクライアント', () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       });
 
       const result = await exchangeToken(mockCode);
@@ -110,7 +110,7 @@ describe('Spotify認証APIクライアント', () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       });
 
       await exchangeToken('');

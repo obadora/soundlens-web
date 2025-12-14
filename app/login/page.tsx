@@ -41,7 +41,9 @@ export default function LoginPage() {
         )}
 
         <button
-          onClick={handleLogin}
+          onClick={() => {
+            void handleLogin();
+          }}
           disabled={isLoading}
           className="w-full bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
         >
