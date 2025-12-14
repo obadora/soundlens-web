@@ -51,7 +51,7 @@ function CallbackContent() {
       }
     };
 
-    handleCallback();
+    void handleCallback();
   }, [searchParams, router]);
 
   return (

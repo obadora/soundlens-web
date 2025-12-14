@@ -1,0 +1,34 @@
+# 依存関係
+node_modules/
+.pnp
+.pnp.js
+
+# ビルド出力
+.next/
+out/
+build/
+dist/
+
+# キャッシュ
+.cache/
+.turbo/
+.vercel/
+
+# ログ
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 環境変数
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# その他
+.DS_Store
+*.pem
+coverage/
+.git/

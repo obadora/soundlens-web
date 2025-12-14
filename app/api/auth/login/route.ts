@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 // Dockerコンテナ内からホストマシンのAPIにアクセス
-const API_BASE_URL = process.env.API_URL || 'http://host.docker.internal:8000';
+const API_BASE_URL = process.env.API_URL ?? 'http://host.docker.internal:8000';
 
 export async function GET() {
   try {
@@ -25,7 +25,7 @@ export async function GET() {
       );
     }
 
-    const data = await response.json();
+    const data: unknown = await response.json();
     console.log('Login URL retrieved successfully');
     return NextResponse.json(data);
   } catch (error) {

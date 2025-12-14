@@ -46,7 +46,7 @@ export async function getLoginUrl(): Promise<LoginUrlResponse> {
     throw new Error(`Failed to get login URL: ${response.statusText}`);
   }
 
-  return response.json();
+  return response.json() as Promise<LoginUrlResponse>;
 }
 
 /**
@@ -66,5 +66,5 @@ export async function exchangeToken(code: string): Promise<TokenResponse> {
     throw new Error(`Failed to exchange token: ${response.statusText}`);
   }
 
-  return response.json();
+  return response.json() as Promise<TokenResponse>;
 }

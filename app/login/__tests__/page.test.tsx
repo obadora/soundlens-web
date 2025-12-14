@@ -12,7 +12,9 @@ jest.mock('@/lib/api/spotify');
 describe('LoginPage', () => {
   beforeEach(() => {
     // console.errorをモックしてエラーログを抑制
-    jest.spyOn(console, 'error').mockImplementation(() => {});
+    jest.spyOn(console, 'error').mockImplementation(() => {
+      // 意図的に何もしない
+    });
   });
 
   afterEach(() => {
