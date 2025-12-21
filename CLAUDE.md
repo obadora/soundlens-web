@@ -17,11 +17,9 @@ npm run lint         # Run ESLint
 ```
 
 ### Dev Container Setup
-This project uses Docker with dev containers and supports git worktrees:
+This project uses Docker with dev containers:
 - Dev container automatically runs `npm install` on creation
-- Dev server starts automatically in background via `postStartCommand`
-- Git worktree detection is automatic - no manual path configuration needed
-- Parent git directory mounted read-only at `/parent-git`
+- Git operations should be performed on the host machine, not inside the container
 
 ## Architecture & Tech Stack
 
@@ -57,7 +55,6 @@ app/
 - **Main branch:** `main`
 - **Development branch:** `develop` (use this as PR base)
 - **Feature branches:** `feature/*` pattern (e.g., `feature/4-spotify-auth-ui`)
-- Git worktree setup supported for parallel development
 
 ### Creating Pull Requests
 Use the Japanese PR template structure:
@@ -107,9 +104,7 @@ VS Code extensions auto-installed:
 - ESLint auto-fix on save
 
 Container includes:
-- Git (latest), GitHub CLI
 - zsh with oh-my-zsh
-- Claude Code CLI (globally installed)
 - Node 22
 
 ## Important Notes

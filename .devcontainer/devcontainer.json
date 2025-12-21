@@ -10,14 +10,6 @@
   // コンテナ作成後に実行するコマンド
   "postCreateCommand": "npm install",
 
-  // コンテナ開始後に実行するコマンド（worktree用のgit設定）
-  "postStartCommand": "bash -c 'if [ -f .git ]; then sed -i \"s|gitdir: .*/\\.git/worktrees/|gitdir: /parent-git/worktrees/|\" .git; fi'",
-
-  // 親gitディレクトリをマウント（worktree対応）
-  "mounts": [
-    "source=${localWorkspaceFolder}/../soundlens-web/.git,target=/parent-git,type=bind,consistency=cached,readonly"
-  ],
-
   // VS Code設定
   "customizations": {
     "vscode": {
@@ -55,15 +47,6 @@
 
   // コンテナの機能
   "features": {
-    // Git (最新版)
-    "ghcr.io/devcontainers/features/git:1": {
-      "version": "latest",
-      "ppa": false
-    },
-    // GitHub CLI
-    "ghcr.io/devcontainers/features/github-cli:1": {
-      "version": "latest"
-    },
     // 便利な開発ツール (zsh, oh-my-zsh, など)
     "ghcr.io/devcontainers/features/common-utils:2": {
       "installZsh": true,
