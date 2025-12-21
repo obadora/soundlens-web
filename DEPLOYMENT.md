@@ -114,6 +114,29 @@ Vercelは自動的に以下の設定を行います:
 
 `vercel.json` でリージョンを東京 (`hnd1`) に設定しています。これにより日本からのアクセスが高速化されます。
 
+## Git ワークフローとデプロイ
+
+### develop から main へのマージ手順
+
+mainブランチへのデプロイ前に、以下の手順でdevelopからmainへPRを作成してマージします：
+
+1. **PRの作成**
+   - GitHubで `main` ← `develop` のPRを作成
+   - タイトル例: 「Sprint 1 本番デプロイ準備」
+   - 変更内容を確認し、レビュー
+
+2. **マージ実行**
+   - PRをマージ（Squash and mergeまたはMerge commitを選択）
+   - mainブランチが更新される
+
+3. **Vercelの自動デプロイ**
+   - mainブランチへのマージ後、Vercelが自動的にデプロイを開始
+   - Vercelダッシュボードでデプロイ状況を確認
+
+4. **デプロイ確認**
+   - デプロイ完了後、本番URLにアクセスして動作確認
+   - 環境変数が正しく設定されているか確認
+
 ## 参考リンク
 
 - [Vercel Documentation](https://vercel.com/docs)
