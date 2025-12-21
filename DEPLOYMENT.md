@@ -19,8 +19,9 @@
 ### 2. プロジェクトのインポート
 
 1. Vercelダッシュボードで「Add New...」→「Project」をクリック
-2. GitHubリポジトリ一覧から `soundlens-web-feaute-17` を選択
+2. GitHubリポジトリ一覧から `soundlens-web` を選択
 3. 「Import」をクリック
+4. ブランチは `main` が自動的に本番環境として設定されます
 
 ### 3. プロジェクト設定
 
