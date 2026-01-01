@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 
-// Dockerコンテナ内からホストマシンのAPIにアクセス
-const API_BASE_URL = process.env.API_URL ?? 'http://host.docker.internal:8000';
-
 export async function GET() {
   try {
+    // 環境変数を実行時に評価（ビルド時ではなく）
+    const API_BASE_URL = process.env.API_URL ?? 'http://host.docker.internal:8000';
+
     console.log('Fetching login URL from:', `${API_BASE_URL}/auth/login`);
 
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
