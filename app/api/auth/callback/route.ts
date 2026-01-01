@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Dockerコンテナ内からホストマシンのAPIにアクセス
-const API_BASE_URL = process.env.API_URL ?? 'http://host.docker.internal:8000';
-
 export async function POST(request: NextRequest) {
   try {
+    // 環境変数を実行時に評価（ビルド時ではなく）
+    const API_BASE_URL = process.env.API_URL ?? 'http://host.docker.internal:8000';
+
     const body: unknown = await request.json();
 
     // デバッグ用ログ（本番環境で環境変数が読み込まれているか確認）
