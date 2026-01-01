@@ -3,8 +3,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   try {
     // 環境変数を実行時に評価（ビルド時ではなく）
-    // 後方互換性のため両方の環境変数名をサポート
-    const API_BASE_URL = process.env.SOUNDLENS_API_URL ?? process.env.API_URL ?? 'http://host.docker.internal:8000';
+    const API_BASE_URL = process.env.SOUNDLENS_API_URL ?? 'http://host.docker.internal:8000';
 
     console.log('Fetching login URL from:', `${API_BASE_URL}/auth/login`);
 
