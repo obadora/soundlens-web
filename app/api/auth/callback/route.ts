@@ -3,7 +3,8 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
   try {
     // 環境変数を実行時に評価（ビルド時ではなく）
-    const API_BASE_URL = process.env.SOUNDLENS_API_URL ?? 'http://host.docker.internal:8000';
+    // 後方互換性のため両方の環境変数名をサポート
+    const API_BASE_URL = process.env.SOUNDLENS_API_URL ?? process.env.API_URL ?? 'http://host.docker.internal:8000';
 
     const body: unknown = await request.json();
     console.log('Exchanging token with backend:', `${API_BASE_URL}/auth/callback`);
