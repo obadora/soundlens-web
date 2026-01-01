@@ -3,11 +3,13 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { isAuthenticated, getAccessToken, clearTokens } from '@/lib/auth/token';
+import Link from 'next/link';
 
 export default function Home() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [trackId, setTrackId] = useState('');
 
   useEffect(() => {
     const checkAuth = () => {
@@ -85,6 +87,31 @@ export default function Home() {
           </code>
         </div>
 
+        <div className="bg-blue-50 dark:bg-blue-900 rounded-lg p-6 mb-6">
+          <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-200 mb-4">
+            トラック情報を表示
+          </h3>
+          <div className="flex flex-col gap-3">
+            <input
+              type="text"
+              value={trackId}
+              onChange={(e) => {
+                setTrackId(e.target.value);
+              }}
+              placeholder="トラックIDを入力"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+            />
+            <Link
+              href={`/track/${trackId}`}
+              className={`w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 ${
+                !trackId ? 'opacity-50 pointer-events-none' : ''
+              }`}
+            >
+              トラック情報を表示
+            </Link>
+          </div>
+        </div>
+
         <div className="flex flex-col gap-4">
           <button
             onClick={handleLogout}
@@ -92,10 +119,6 @@ export default function Home() {
           >
             ログアウト
           </button>
-
-          <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-            ここから先の機能は開発中です
-          </p>
         </div>
       </main>
     </div>
