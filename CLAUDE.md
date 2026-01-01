@@ -48,40 +48,51 @@ This project uses Docker with dev containers:
 ```
 app/
 ├── api/
-│   └── auth/              # API routes for Spotify OAuth proxy
-│       ├── login/         # GET /api/auth/login - Generate auth URL
-│       └── callback/      # POST /api/auth/callback - Exchange auth code
-├── login/                 # Login page
-├── callback/              # OAuth callback handler page
-├── auth/                  # Legacy auth routes
-├── __tests__/             # App-level tests
-├── layout.tsx             # Root layout with metadata, Geist font
-├── page.tsx               # Home page (server component)
-└── globals.css            # Tailwind + CSS custom properties for theming
+│   ├── auth/                           # Spotify OAuth proxy endpoints
+│   │   ├── login/                      # GET /api/auth/login - Proxies to backend
+│   │   └── callback/                   # POST /api/auth/callback - Proxies token exchange
+│   └── soundlens/
+│       └── tracks/[trackId]/           # GET /api/soundlens/tracks/{id} - Fetch track info
+├── login/                              # Login page
+├── callback/                           # OAuth callback handler page
+├── track/[trackId]/                    # Dynamic track detail page
+├── __tests__/                          # App-level tests
+├── layout.tsx                          # Root layout with metadata, Geist font
+├── page.tsx                            # Home page (client component with auth check)
+└── globals.css                         # Tailwind + CSS custom properties
 
 lib/
 ├── api/
-│   └── spotify.ts         # Spotify API client (calls Next.js API routes)
+│   ├── spotify.ts                      # Spotify auth API client (calls /api/auth/*)
+│   └── soundlens.ts                    # SoundLens API client (calls /api/soundlens/*)
 └── auth/
-    └── token.ts           # Token management utilities (localStorage)
+    └── token.ts                        # Token management (localStorage-based)
 ```
 
 **Key architectural points:**
-- **OAuth Flow**: Spotify authentication via Next.js API Routes as proxy to avoid CORS issues
+- **Backend Proxy Pattern**: Next.js API Routes proxy requests to SoundLens backend API (`SOUNDLENS_API_URL`) to avoid CORS issues
 - **Token Management**: Client-side token storage using localStorage with expiration checking
-- **Server Components**: Default for all pages unless `'use client'` directive is used
+- **Server Components**: Pages are client components (`'use client'`) when auth state or interactivity is needed
 - **Path Alias**: `@/*` maps to project root (configured in tsconfig.json)
 - **Styling**: Tailwind utilities + CSS variables for theme values
 - **Testing**: Jest configured with jsdom environment for component testing
 
 ### Authentication Architecture
-1. User clicks login → calls `lib/api/spotify.getLoginUrl()` → fetches from `/api/auth/login`
-2. `/api/auth/login` generates Spotify OAuth URL and returns it
+1. User clicks login → `lib/api/spotify.getLoginUrl()` → fetches from `/api/auth/login`
+2. `/api/auth/login` proxies request to SoundLens backend → backend generates Spotify OAuth URL
 3. User redirects to Spotify for authorization
-4. Spotify redirects back to callback page with auth code
+4. Spotify redirects back to `/callback` page with auth code
 5. Callback page calls `lib/api/spotify.exchangeToken(code)` → posts to `/api/auth/callback`
-6. `/api/auth/callback` exchanges code for tokens via Spotify API
-7. Tokens stored in localStorage via `lib/auth/token.saveToken()`
+6. `/api/auth/callback` proxies token exchange to SoundLens backend → backend exchanges code with Spotify API
+7. Tokens returned and stored in localStorage via `lib/auth/token.saveToken()`
+
+### Data Flow for Track Information
+1. User enters track ID on home page → navigates to `/track/[trackId]`
+2. Track page calls `lib/api/soundlens.getTrack(trackId)` with access token from localStorage
+3. Request goes to `/api/soundlens/tracks/[trackId]` with Authorization header
+4. API route proxies to SoundLens backend at `SOUNDLENS_API_URL/api/tracks/{trackId}`
+5. Backend fetches track data from Spotify API and returns it
+6. Track page renders album art, artist, duration, and preview audio
 
 ## Git Workflow & Collaboration
 
@@ -154,6 +165,24 @@ Jest is configured with:
 
 Refer to `DEPLOYMENT.md` for detailed Vercel setup instructions.
 
+## Environment Variables
+
+The project requires environment variables in `.env.local` (never commit this file):
+
+### For Direct Spotify Integration (if bypassing backend)
+```bash
+SPOTIFY_CLIENT_ID=your_spotify_client_id
+SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
+SPOTIFY_REDIRECT_URI=http://localhost:3000/callback
+```
+
+### For SoundLens Backend Integration (current architecture)
+```bash
+SOUNDLENS_API_URL=http://host.docker.internal:8000  # Backend API URL
+```
+
+The backend API URL defaults to `http://host.docker.internal:8000` for dev container setup. Update this for production deployments via Vercel environment variables.
+
 ## Important Notes
 
 - All commit messages, PRs, and issues should be in Japanese
@@ -161,3 +190,4 @@ Refer to `DEPLOYMENT.md` for detailed Vercel setup instructions.
 - Environment variables should be added to `.env.local` (not committed)
 - Project uses strict TypeScript - no `any` types without explicit reason
 - ESLint uses strictTypeChecked - expect rigorous type safety enforcement
+- API routes act as proxies to SoundLens backend - they do not directly call Spotify API
