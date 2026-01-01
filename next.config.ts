@@ -1,14 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Devcontainer環境でのホットリロード対応（Turbopack用）
-  experimental: {
-    // Turbopackでのファイルウォッチはデフォルトでポーリングモードをサポート
-    // Dockerボリュームマウント越しでも動作する
-    turbo: {
-      useSwcLoader: true,
-    },
-  },
+  // Next.js 16のTurbopackはデフォルトでDocker環境のファイルウォッチに対応
+  // 追加設定は不要
 };
 
 export default nextConfig;

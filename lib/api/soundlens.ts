@@ -28,11 +28,11 @@ export interface SpotifyAlbum {
   name: string;
   album_type: string;
   artists: SpotifyArtist[];
-  images: Array<{
+  images: {
     url: string;
     height: number;
     width: number;
-  }>;
+  }[];
   release_date: string;
   [key: string]: unknown;
 }
@@ -108,7 +108,7 @@ export async function getTrack(trackId: string): Promise<Track> {
     );
   }
 
-  const data = await response.json();
+  const data: unknown = await response.json();
   console.log('Track API response:', data);
   return data as Track;
 }

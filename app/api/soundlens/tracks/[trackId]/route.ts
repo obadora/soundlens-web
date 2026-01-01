@@ -43,7 +43,7 @@ export async function GET(
         status: response.status,
         statusText: response.statusText,
         trackId,
-        authorization: authHeader?.substring(0, 20) + '...',
+        authorization: authHeader.substring(0, 20) + '...',
         errorText,
       });
       return NextResponse.json(
