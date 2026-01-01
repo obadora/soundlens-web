@@ -4,8 +4,8 @@
   "service": "web",
   "workspaceFolder": "/src",
 
-  // コンテナ起動前に実行するコマンド（既存コンテナのクリーンアップ）
-  "initializeCommand": "docker compose -f ${localWorkspaceFolder}/docker-compose.yml down --remove-orphans 2>/dev/null || true",
+  // コンテナ起動前に実行するコマンド（既存コンテナのクリーンアップと.env.localのコピー）
+  "initializeCommand": "bash ${localWorkspaceFolder}/.devcontainer/init.sh ${localWorkspaceFolder}",
 
   // コンテナ作成後に実行するコマンド
   "postCreateCommand": "npm install",

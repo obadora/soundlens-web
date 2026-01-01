@@ -83,14 +83,18 @@ describe('Home', () => {
     });
   });
 
-  it('開発中メッセージが表示される', async () => {
+  it('トラック情報表示セクションが表示される', async () => {
     (isAuthenticated as jest.Mock).mockReturnValue(true);
     (getAccessToken as jest.Mock).mockReturnValue('test_token');
 
     render(<Home />);
 
     await waitFor(() => {
-      expect(screen.getByText('ここから先の機能は開発中です')).toBeInTheDocument();
+      expect(screen.getByPlaceholderText('トラックIDを入力')).toBeInTheDocument();
     });
+
+    // h3見出しとリンクボタンの両方が存在することを確認
+    const elements = screen.getAllByText('トラック情報を表示');
+    expect(elements).toHaveLength(2);
   });
 });
